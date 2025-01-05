@@ -127,9 +127,11 @@ export const getTrendingMovies = async (args) => {
 //   });
 // };
 
-export const getNowPlaying = async () => {
+export const getNowPlaying = async (args) => {
+  const [, pagePart] = args.queryKey;
+  const { page } = pagePart;
   const response = await fetch(
-    'http://localhost:8080/api/movies', {
+    `http://localhost:8080/api/movies/now_playing/${page}`, {
     headers: {
       'Authorization': window.localStorage.getItem('token')
     }
@@ -185,64 +187,43 @@ export const getMovieRecommendations = async (args) => {
   return response.json();
 };
   
-export const getMovieCredits = (args) => {
-  //console.log(args)
+export const getMovieCredits = async (args) => {
   const [, idPart] = args.queryKey;
   const { id } = idPart;
-  //console.log(id)
-  return fetch(
-    `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${process.env.REACT_APP_TMDB_KEY}`
-  ).then((response) => {
-    if (!response.ok) {
-      return response.json().then((error) => {
-        throw new Error(error.status_message || "Something went wrong");
-      });
+  const response = await fetch(
+    `http://localhost:8080/api/movies/tmdb/${id}/credits`, {
+    headers: {
+      'Authorization': window.localStorage.getItem('token')
     }
-    return response.json();
-  })
-  .catch((error) => {
-    throw error
- });
+  }
+  )
+  return response.json();
 };
 
-export const getPerson = (args) => {
-  //console.log(args)
+export const getPerson = async (args) => {
   const [, idPart] = args.queryKey;
   const { id } = idPart;
-  //console.log(id)
-  return fetch(
-    `https://api.themoviedb.org/3/person/${id}?api_key=${process.env.REACT_APP_TMDB_KEY}`
-  ).then((response) => {
-    if (!response.ok) {
-      return response.json().then((error) => {
-        throw new Error(error.status_message || "Something went wrong");
-      });
+  const response = await fetch(
+    `http://localhost:8080/api/movies/tmdb/person/${id}`, {
+    headers: {
+      'Authorization': window.localStorage.getItem('token')
     }
-    return response.json();
-  })
-  .catch((error) => {
-    throw error
- });
+  }
+  )
+  return response.json();
 };
 
-export const getPersonMovieCredits = (args) => {
-  //console.log(args)
+export const getPersonMovieCredits = async (args) => {
   const [, idPart] = args.queryKey;
   const { id } = idPart;
-  //console.log(id)
-  return fetch(
-    `https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${process.env.REACT_APP_TMDB_KEY}`
-  ).then((response) => {
-    if (!response.ok) {
-      return response.json().then((error) => {
-        throw new Error(error.status_message || "Something went wrong");
-      });
+  const response = await fetch(
+    `http://localhost:8080/api/movies/tmdb/person/${id}/credits`, {
+    headers: {
+      'Authorization': window.localStorage.getItem('token')
     }
-    return response.json();
-  })
-  .catch((error) => {
-    throw error
- });
+  }
+  )
+  return response.json();
 };
 
 // export const getGenres = () => {
@@ -274,23 +255,19 @@ export const getGenres = async () => {
   return response.json();
 };
 
-export const getMovieImages = ({ queryKey }) => {
-  const [, idPart] = queryKey;
+export const getMovieImages = async (args) => {
+  const [, idPart] = args.queryKey;
   const { id } = idPart;
-  return fetch(
-    `https://api.themoviedb.org/3/movie/${id}/images?api_key=${process.env.REACT_APP_TMDB_KEY}`
-  ).then( (response) => {
-    if (!response.ok) {
-      return response.json().then((error) => {
-        throw new Error(error.status_message || "Something went wrong");
-      });
+  const response = await fetch(
+    `http://localhost:8080/api/movies/tmdb/${id}/images`, {
+    headers: {
+      'Authorization': window.localStorage.getItem('token')
     }
-    return response.json();
-  })
-  .catch((error) => {
-    throw error
- });
+  }
+  )
+  return response.json();
 };
+
 
 export const getMovieReviews = ({ queryKey }) => {
   const [, idPart] = queryKey;

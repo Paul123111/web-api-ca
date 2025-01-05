@@ -9,7 +9,7 @@ const AppPagination = ({page, setPage}) => {
 
   const handleChange = (page) => {
     setPage(page);
-    console.log(page);
+    //console.log(page);
     
     window.scroll(0, 0);
     //console.log(page);
