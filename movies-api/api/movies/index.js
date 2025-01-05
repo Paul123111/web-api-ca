@@ -6,7 +6,9 @@ import {
   getUpcomingMovies,
   getTrendingMovies,
   getMovies,
-  getMovie
+  getMovie,
+  getNowPlaying,
+  getMovieRecommendations
 } from '../tmdb-api';
 
 
@@ -45,6 +47,16 @@ router.get('/:id', asyncHandler(async (req, res) => {
     }
 }));
 
+router.get('/tmdb/:id/recommendations', asyncHandler(async (req, res) => {
+  const id = parseInt(req.params.id);
+  const movie = await getMovieRecommendations(id);
+  if (movie) {
+      res.status(200).json(movie);
+  } else {
+      res.status(404).json({message: 'The movie you requested could not be found.', status_code: 404});
+  }
+}));
+
 router.get('/tmdb/trending', asyncHandler(async (req, res) => {
   const trendingMovies = await getTrendingMovies();
   res.status(200).json(trendingMovies);
@@ -62,6 +74,11 @@ router.get('/tmdb/genres', asyncHandler(async (req, res) => {
 
 router.get('/tmdb/discover', asyncHandler(async (req, res) => {
   const movies = await getMovies();
+  res.status(200).json(movies);
+}));
+
+router.get('/tmdb/now_playing', asyncHandler(async (req, res) => {
+  const movies = await getNowPlaying();
   res.status(200).json(movies);
 }));
 

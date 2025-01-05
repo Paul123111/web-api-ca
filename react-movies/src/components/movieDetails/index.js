@@ -123,4 +123,4 @@ const MovieDetails = ({ movie, credits }) => {  // Don't miss this!
       </>
   );
 };
-export default MovieDetails ;
+export default MovieDetails;

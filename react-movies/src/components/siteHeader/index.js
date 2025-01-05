@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState, useContext, Navigate } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { styled } from '@mui/material/styles';
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import ThemeSwitch from "../themeSwitch";
+import { AuthContext2 } from "../../contexts/authContext";
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
@@ -23,7 +23,7 @@ const SiteHeader = ({ history }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   
   const navigate = useNavigate();
-
+  const context = useContext(AuthContext2);
   const menuOptions = [
     { label: "Home", path: "/" },
     { label: "Favorites", path: "/movies/favorites" },
@@ -31,12 +31,15 @@ const SiteHeader = ({ history }) => {
     { label: "Upcoming", path: "/movies/upcoming" },
     { label: "Trending", path: "/movies/trending/today" },
     { label: "Now Playing", path: "/movies/now-playing" },
-    { label: "Signup", path: "/signup" },
-    { label: "Login", path: "/login" },
   ];
 
   const handleMenuSelect = (pageURL) => {
     navigate(pageURL, { replace: true });
+  };
+
+  const signoutSelect = (pageURL) => {
+    navigate(pageURL, { replace: true });
+    context.signout(); 
   };
 
   const handleMenu = (event) => {
@@ -101,6 +104,40 @@ const SiteHeader = ({ history }) => {
                     {opt.label}
                   </Button>
                 ))}
+
+                
+                {
+                  (context.isAuthenticated) ? (
+                  <Button
+                    key={"logout"}
+                    color="inherit"
+                    onClick={() => {
+                      signoutSelect("/login");              
+                    }}
+                  >
+                    Logout
+                    
+                  </Button>
+                  ) : (
+                    <>
+                      <Button
+                      key={"signup"}
+                      color="inherit"
+                      onClick={() => handleMenuSelect("/signup")}
+                      >
+                        Signup
+                      </Button>
+
+                      <Button
+                      key={"login"}
+                      color="inherit"
+                      onClick={() => handleMenuSelect("/login")}
+                      >
+                        Login
+                      </Button>
+                    </>
+                  )
+                }
 
                 {/* <ThemeSwitch /> */}
               

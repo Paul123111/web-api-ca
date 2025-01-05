@@ -1,5 +1,6 @@
-import React, { useState, createContext } from "react";
+import React, { useState, createContext, Navigate } from "react";
 import { login, signup } from "../api/tmdb-api";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext2 = createContext(null);
 
@@ -30,8 +31,9 @@ const AuthContext2Provider = (props) => {
     return (result.code == 201) ? true : false;
   };
 
+  const navigate = useNavigate();
   const signout = () => {
-    setTimeout(() => setIsAuthenticated(false), 100);
+    setTimeout(() => {setIsAuthenticated(false); navigate("/login")}, 100);
   }
 
   return (

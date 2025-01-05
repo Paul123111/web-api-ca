@@ -20,6 +20,7 @@ import WatchlistMoviesPage from "./pages/watchlistMoviesPage";
 import LoginPage from "./pages/loginPage";
 import SignUpPage from "./pages/signUpPage";
 import AuthContextProvider from "./contexts/authContext";
+import ProtectedRoutes from "./protected-routes";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -50,8 +51,13 @@ const App = () => {
         <ThemeContextProvider>
           <MoviesContextProvider>
             <Routes>
-              <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
-              <Route path="/movies/watchlist" element={<WatchlistMoviesPage />} />
+
+              <Route element={<ProtectedRoutes />}>
+                <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
+                <Route path="/movies/watchlist" element={<WatchlistMoviesPage />} />
+                <Route path="/reviews/form" element={ <AddMovieReviewPage /> } />
+              </Route>
+
               <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
               <Route path="/movies/trending/today" element={<TrendingMoviesPage />} />
               <Route path="/movies/now-playing" element={<NowPlayingPage />} />
@@ -59,7 +65,7 @@ const App = () => {
               <Route path="/movies/:id" element={<MoviePage />} />
               <Route path="/movies/:id/recommendations" element={<MovieRecommendationsPage />} />
               <Route path="/person/:id" element={<PersonPage />} />
-              <Route path="/reviews/form" element={ <AddMovieReviewPage /> } />
+
               <Route path="/" element={<HomePage />} />
               <Route path="/login" element={<LoginPage/>} />
               <Route path="/signup" element={<SignUpPage/>} />
