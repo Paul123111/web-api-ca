@@ -4,7 +4,8 @@ import express from 'express';
 import {
   getGenres,
   getUpcomingMovies,
-  getTrendingMovies
+  getTrendingMovies,
+  getMovies
 } from '../tmdb-api';
 
 
@@ -44,8 +45,8 @@ router.get('/:id', asyncHandler(async (req, res) => {
 }));
 
 router.get('/tmdb/trending', asyncHandler(async (req, res) => {
-  const upcomingMovies = await getTrendingMovies();
-  res.status(200).json(upcomingMovies);
+  const trendingMovies = await getTrendingMovies();
+  res.status(200).json(trendingMovies);
 }));
 
 router.get('/tmdb/upcoming', asyncHandler(async (req, res) => {
@@ -56,6 +57,11 @@ router.get('/tmdb/upcoming', asyncHandler(async (req, res) => {
 router.get('/tmdb/genres', asyncHandler(async (req, res) => {
   const genres = await getGenres();
   res.status(200).json(genres);
+}));
+
+router.get('/tmdb/discover', asyncHandler(async (req, res) => {
+  const movies = await getMovies();
+  res.status(200).json(movies);
 }));
 
 export default router;
