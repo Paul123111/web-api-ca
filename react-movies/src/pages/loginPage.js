@@ -11,6 +11,7 @@ const LoginPage = props => {
 
     const login = () => {
         context.authenticate(userName, password);
+        console.log(context.userName);
     };
 
     let location = useLocation();

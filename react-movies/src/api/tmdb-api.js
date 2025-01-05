@@ -269,22 +269,17 @@ export const getMovieImages = async (args) => {
 };
 
 
-export const getMovieReviews = ({ queryKey }) => {
-  const [, idPart] = queryKey;
+export const getMovieReviews = async(args) => {
+  const [, idPart] = args.queryKey;
   const { id } = idPart;
-  return fetch(
-    `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${process.env.REACT_APP_TMDB_KEY}`
-  ).then( (response) => {
-    if (!response.ok) {
-      return response.json().then((error) => {
-        throw new Error(error.status_message || "Something went wrong");
-      });
+  const response = await fetch(
+    `http://localhost:8080/api/movies/tmdb/${id}/reviews`, {
+    headers: {
+      'Authorization': window.localStorage.getItem('token')
     }
-    return response.json();
-  })
-  .catch((error) => {
-    throw error
- });
+  }
+  )
+  return response.json();
 };
 
 export const signup = async (username, password) => {
@@ -295,6 +290,7 @@ export const signup = async (username, password) => {
       method: 'post',
       body: JSON.stringify({ username: username, password: password })
   });
+  newUserFavorites(username);
   return response.json();
 };
   
@@ -306,5 +302,57 @@ export const login = async (username, password) => {
       method: 'post',
       body: JSON.stringify({ username: username, password: password })
   });
+  return response.json();
+};
+
+export const addToFavorites = async (username, movie) => {
+  const movieArray = await getFavorites2(username);
+  console.log(movieArray.movies);
+  const response = await fetch(`http://localhost:8080/api/favourites/user/${username}`, {
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      method: 'put',
+      body: JSON.stringify({ username: username, movies: [...movieArray.movies, movie] })
+  });
+  return response.json();
+};
+
+export const newUserFavorites = async (username) => {
+  console.log(username);
+  const response = await fetch(`http://localhost:8080/api/favourites/user/${username}`, {
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      method: 'post',
+      body: JSON.stringify({ username: username, movies: [] })
+  });
+  return response.json();
+};
+
+export const getFavorites = async (args) => {
+  const [, namePart] = args.queryKey;
+  // const { name } = namePart;
+  // console.log(name);
+  const response = await fetch(
+    `http://localhost:8080/api/favourites/user/${namePart.username}`, {
+    headers: {
+      'Authorization': window.localStorage.getItem('token')
+    }
+  }
+  )
+  return response.json();
+};
+
+export const getFavorites2 = async (username) => {
+  // const { name } = namePart;
+  // console.log(name);
+  const response = await fetch(
+    `http://localhost:8080/api/favourites/user/${username}`, {
+    headers: {
+      'Authorization': window.localStorage.getItem('token')
+    }
+  }
+  )
   return response.json();
 };

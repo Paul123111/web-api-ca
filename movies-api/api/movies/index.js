@@ -13,7 +13,8 @@ import {
   getMovieCredits,
   getPerson,
   getPersonMovieCredits,
-  getMovieImages
+  getMovieImages,
+  getMovieReviews
 } from '../tmdb-api';
 
 
@@ -44,7 +45,6 @@ router.get('/now_playing/:page', asyncHandler(async (req, res) => {
   res.status(200).json(returnObject);
 }));
 
-
 // Get movie details
 router.get('/:id', asyncHandler(async (req, res) => {
     const id = parseInt(req.params.id);
@@ -54,6 +54,16 @@ router.get('/:id', asyncHandler(async (req, res) => {
     } else {
         res.status(404).json({message: 'The movie you requested could not be found.', status_code: 404});
     }
+}));
+
+router.get('/tmdb/:id/reviews', asyncHandler(async (req, res) => {
+  const id = parseInt(req.params.id);
+  const movie = await getMovieReviews(id);
+  if (movie) {
+      res.status(200).json(movie);
+  } else {
+      res.status(404).json({message: 'The movie you requested could not be found.', status_code: 404});
+  }
 }));
 
 router.get('/tmdb/:id/recommendations/:page', asyncHandler(async (req, res) => {
@@ -128,7 +138,7 @@ router.get('/tmdb/person/:id/credits', asyncHandler(async (req, res) => {
   }
 }));
 
-// Get movie details
+// Get movie images
 router.get('/tmdb/:id/images', asyncHandler(async (req, res) => {
   const id = parseInt(req.params.id);
   const movie = await getMovieImages(id);

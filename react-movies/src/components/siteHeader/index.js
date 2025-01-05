@@ -26,7 +26,7 @@ const SiteHeader = ({ history }) => {
   const context = useContext(AuthContext2);
   const menuOptions = [
     { label: "Home", path: "/" },
-    { label: "Favorites", path: "/movies/favorites" },
+    { label: "Favorites", path: `/movies/favorites/user/${context.userName}` },
     { label: "Watchlist", path: "/movies/watchlist" },
     { label: "Upcoming", path: "/movies/upcoming" },
     { label: "Trending", path: "/movies/trending/today" },

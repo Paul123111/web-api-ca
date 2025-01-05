@@ -1,6 +1,7 @@
 import React, { useState, createContext, Navigate } from "react";
 import { login, signup } from "../api/tmdb-api";
 import { useNavigate } from "react-router-dom";
+import { newUserFavorites } from "../api/tmdb-api";
 
 export const AuthContext2 = createContext(null);
 

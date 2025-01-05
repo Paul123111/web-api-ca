@@ -53,7 +53,7 @@ const App = () => {
             <Routes>
 
               <Route element={<ProtectedRoutes />}>
-                <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
+                <Route path="/movies/favorites/user/:id" element={<FavoriteMoviesPage />} />
                 <Route path="/movies/watchlist" element={<WatchlistMoviesPage />} />
                 <Route path="/reviews/form" element={ <AddMovieReviewPage /> } />
               </Route>

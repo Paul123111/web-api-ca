@@ -16,19 +16,23 @@ import img from '../../images/film-poster-placeholder.png'
 import Avatar from '@mui/material/Avatar';
 import { MoviesContext } from "../../contexts/moviesContext";
 import "../../css/style.css";
+import { addToFavorites } from "../../api/tmdb-api";
+import { AuthContext2 } from "../../contexts/authContext";
 
 export default function MovieCard({ movie, action }) { 
-  const { favorites, addToFavorites } = useContext(MoviesContext);
+  //const { favorites, addToFavorites } = useContext(MoviesContext);
 
-  if (favorites.find((id) => id === movie.id)) {
-    movie.favorite = true;
-  } else {
-    movie.favorite = false;
-  }
+  // if (favorites.find((id) => id === movie.id)) {
+  //   movie.favorite = true;
+  // } else {
+  //   movie.favorite = false;
+  // }
+
+  const context = useContext(AuthContext2);
 
   const handleAddToFavorite = (e) => {
     e.preventDefault();
-    addToFavorites(movie);
+    addToFavorites(context.userName, movie.id);
   };
 
   return (
