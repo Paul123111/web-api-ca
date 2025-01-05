@@ -1,9 +1,9 @@
 import fetch from 'node-fetch';
 
-export const getUpcomingMovies = async () => {
+export const getUpcomingMovies = async (page) => {
     try {
         const response = await fetch(
-            `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.TMDB_KEY}&language=en-US&page=1`
+            `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.TMDB_KEY}&language=en-US&page=${page}`
         );
 
         if (!response.ok) {
@@ -16,10 +16,10 @@ export const getUpcomingMovies = async () => {
     }
 };
 
-export const getTrendingMovies = async () => {
+export const getTrendingMovies = async (page) => {
   try {
       const response = await fetch(
-          `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.TMDB_KEY}&language=en-US&page=1`
+          `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.TMDB_KEY}&language=en-US&page=${page}`
       );
 
       if (!response.ok) {
@@ -33,31 +33,46 @@ export const getTrendingMovies = async () => {
   }
 };
 
-export const getMovies = async () => {
-  try {
-      const response = await fetch(
-          `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.TMDB_KEY}&language=en-US&page=1`
-      );
+// export const getMovies = async () => {
+//   try {
+//       const response = await fetch(
+//           `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.TMDB_KEY}&language=en-US&page=1`
+//       );
 
-      if (!response.ok) {
-        console.log("Error");
-        throw new Error(response.json().message);
-      }
+//       if (!response.ok) {
+//         console.log("Error");
+//         throw new Error(response.json().message);
+//       }
 
-      return await response.json();
-  } catch (error) {
-      throw error;
-  }
+//       return await response.json();
+//   } catch (error) {
+//       throw error;
+//   }
+// };
+
+export const getMoviesPage = async (page) => {
+  return fetch(
+    `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}`
+  ).then((response) => {
+    if (!response.ok) {
+      return response.json().then((error) => {
+        throw new Error(error.status_message || "Something went wrong");
+      });
+    }
+    return response.json();
+  })
+  .catch((error) => {
+      throw error
+  });
 };
 
-export const getNowPlaying = async () => {
+export const getNowPlaying = async (page) => {
   try {
       const response = await fetch(
-          `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.TMDB_KEY}&language=en-US&page=1`
+          `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.TMDB_KEY}&language=en-US&page=${page}`
       );
 
       if (!response.ok) {
-        console.log("Error");
         throw new Error(response.json().message);
       }
 
@@ -101,11 +116,11 @@ export const getMovie = async (id) => {
   });
 };
 
-export const getMovieRecommendations = async (id) => {
+export const getMovieRecommendations = async (id, page) => {
   // const [, idPart] = args.queryKey;
   // const { id } = idPart;
   return fetch(
-    `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${process.env.TMDB_KEY}&language=en-US`
+    `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${process.env.TMDB_KEY}&language=en-US&page=${page}`
   ).then( (response) => {
     if (!response.ok) {
       return response.json().then((error) => {
@@ -119,20 +134,20 @@ export const getMovieRecommendations = async (id) => {
   });
 };
 
-// export const getMovie = async (id) => {
-//   // const [, idPart] = args.queryKey;
-//   // const { id } = idPart;
-//   return fetch(
-//     `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.TMDB_KEY}`
-//   ).then( (response) => {
-//     if (!response.ok) {
-//       return response.json().then((error) => {
-//         throw new Error(error.status_message || "Something went wrong");
-//       });
-//     }
-//     return response.json();
-//   })
-//   .catch((error) => {
-//     throw error
-//   });
-// };
+export const getMovieCredits = async (id) => {
+  // const [, idPart] = args.queryKey;
+  // const { id } = idPart;
+  return fetch(
+    `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.TMDB_KEY}`
+  ).then( (response) => {
+    if (!response.ok) {
+      return response.json().then((error) => {
+        throw new Error(error.status_message || "Something went wrong");
+      });
+    }
+    return response.json();
+  })
+  .catch((error) => {
+    throw error
+  });
+};

@@ -6,6 +6,7 @@ import {
   getUpcomingMovies,
   getTrendingMovies,
   getMovies,
+  getMoviesPage,
   getMovie,
   getNowPlaying,
   getMovieRecommendations
@@ -47,9 +48,10 @@ router.get('/:id', asyncHandler(async (req, res) => {
     }
 }));
 
-router.get('/tmdb/:id/recommendations', asyncHandler(async (req, res) => {
+router.get('/tmdb/:id/recommendations/:page', asyncHandler(async (req, res) => {
   const id = parseInt(req.params.id);
-  const movie = await getMovieRecommendations(id);
+  const page = parseInt(req.params.page);
+  const movie = await getMovieRecommendations(id, page);
   if (movie) {
       res.status(200).json(movie);
   } else {
@@ -57,13 +59,16 @@ router.get('/tmdb/:id/recommendations', asyncHandler(async (req, res) => {
   }
 }));
 
-router.get('/tmdb/trending', asyncHandler(async (req, res) => {
-  const trendingMovies = await getTrendingMovies();
+router.get('/tmdb/trending/:page', asyncHandler(async (req, res) => {
+  const page = parseInt(req.params.page);
+  const trendingMovies = await getTrendingMovies(page);
   res.status(200).json(trendingMovies);
 }));
 
-router.get('/tmdb/upcoming', asyncHandler(async (req, res) => {
-  const upcomingMovies = await getUpcomingMovies();
+router.get('/tmdb/upcoming/:page', asyncHandler(async (req, res) => {
+  console.log("a");
+  const page = parseInt(req.params.page);
+  const upcomingMovies = await getUpcomingMovies(page);
   res.status(200).json(upcomingMovies);
 }));
 
@@ -72,13 +77,15 @@ router.get('/tmdb/genres', asyncHandler(async (req, res) => {
   res.status(200).json(genres);
 }));
 
-router.get('/tmdb/discover', asyncHandler(async (req, res) => {
-  const movies = await getMovies();
+router.get('/tmdb/discover/:page', asyncHandler(async (req, res) => {
+  const page = parseInt(req.params.page);
+  const movies = await getMoviesPage(page);
   res.status(200).json(movies);
 }));
 
-router.get('/tmdb/now_playing', asyncHandler(async (req, res) => {
-  const movies = await getNowPlaying();
+router.get('/tmdb/now_playing/:page', asyncHandler(async (req, res) => {
+  const page = parseInt(req.params.page);
+  const movies = await getNowPlaying(page);
   res.status(200).json(movies);
 }));
 

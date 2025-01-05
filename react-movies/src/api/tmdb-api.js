@@ -33,9 +33,11 @@ export const getMovies = () => {
 //   });
 // };
 
-export const getMoviesPage = async () => {
+export const getMoviesPage = async (args) => {
+  const [, pagePart] = args.queryKey;
+  const { page } = pagePart;
   const response = await fetch(
-    'http://localhost:8080/api/movies/tmdb/discover', {
+    `http://localhost:8080/api/movies/tmdb/discover/${page}`, {
     headers: {
       'Authorization': window.localStorage.getItem('token')
     }
@@ -63,9 +65,11 @@ export const getMoviesPage = async () => {
 //   });
 // };
 
-export const getUpcomingMovies = async () => {
+export const getUpcomingMovies = async (args) => {
+  const [, pagePart] = args.queryKey;
+  const { page } = pagePart;
   const response = await fetch(
-    'http://localhost:8080/api/movies/tmdb/upcoming', {
+    `http://localhost:8080/api/movies/tmdb/upcoming/${page}`, {
     headers: {
       'Authorization': window.localStorage.getItem('token')
     }
@@ -92,9 +96,11 @@ export const getUpcomingMovies = async () => {
 //   });
 // };
 
-export const getTrendingMovies = async () => {
+export const getTrendingMovies = async (args) => {
+  const [, pagePart] = args.queryKey;
+  const { page } = pagePart;
   const response = await fetch(
-    'http://localhost:8080/api/movies/tmdb/trending', {
+    `http://localhost:8080/api/movies/tmdb/trending/${page}`, {
     headers: {
       'Authorization': window.localStorage.getItem('token')
     }
@@ -167,8 +173,10 @@ export const getMovie = async (args) => {
 export const getMovieRecommendations = async (args) => {
   const [, idPart] = args.queryKey;
   const { id } = idPart;
+  const [, , pagePart] = args.queryKey;
+  const { page } = pagePart;
   const response = await fetch(
-    `http://localhost:8080/api/movies/tmdb/${id}/recommendations`, {
+    `http://localhost:8080/api/movies/tmdb/${id}/recommendations/${page}`, {
     headers: {
       'Authorization': window.localStorage.getItem('token')
     }
