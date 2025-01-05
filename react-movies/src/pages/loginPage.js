@@ -1,58 +1,44 @@
-import { Card } from "@mui/material";
-import {TextField} from "@mui/material";
-import {Button} from "@mui/material";
-import { useForm } from "react-hook-form";
-import { useAuth } from "../contexts/authContext";
-import { useState } from "react";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { auth, app } from "../firebase/firebase";
+import React, { useContext, useState } from "react";
+import { Navigate, useLocation } from "react-router-dom";
+import { AuthContext2 } from '../contexts/authContext';
+import { Link } from "react-router-dom";
 
-const LoginPage = (props) => {
+const LoginPage = props => {
+    const context = useContext(AuthContext2);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+    const [userName, setUserName] = useState("");
+    const [password, setPassword] = useState("");
 
-  signOut(auth).then(() => {
-    // Sign-out successful.
-  }).catch((error) => {
-    // An error happened.
-  });
+    const login = () => {
+        context.authenticate(userName, password);
+    };
 
-  const signIn = (e) => {
-    e.preventDefault();
-    console.log(email + ", " + password);
-    signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    console.log(userCredential);
-    // ...
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-}
+    let location = useLocation();
 
-  return (
-    <>
-      <Card>
-        <h1>Login</h1>
-        <form onSubmit={signIn}>
-          <input
-            type="email" placeholder="Enter your email" onChange={(e) => setEmail(e.target.value)}  value={email} class="input-field"
-          ></input>
+    // Set 'from' to path where browser is redirected after a successful login - either / or the protected path user requested
+    const { from } = location.state ? { from: location.state.from.pathname } : { from: "/" };
 
-          <input
-            type="password" placeholder="Enter your password" onChange={(e) => setPassword(e.target.value)} value={password} class="input-field"
-          ></input>
-        
-          <button type="submit" name="submit" class="input-submit" value="sign in">Sign in</button>
-        </form>
+    if (context.isAuthenticated === true) {
+        return <Navigate to={from} />;
+    }
 
-      </Card>
-
-      
-    </>
-  );
+    return (
+        <>
+            <h2>Login page</h2>
+            <p>You must log in to view the protected pages </p>
+            <input id="username" placeholder="user name" onChange={e => {
+                setUserName(e.target.value);
+            }}></input><br />
+            <input id="password" type="password" placeholder="password" onChange={e => {
+                setPassword(e.target.value);
+            }}></input><br />
+            {/* Login web form  */}
+            <button onClick={login}>Log in</button>
+            <p>Not Registered?
+                <Link to="/signup">Sign Up!</Link></p>
+        </>
+    );
 };
+
 export default LoginPage;
+

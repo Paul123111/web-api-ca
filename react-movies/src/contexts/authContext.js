@@ -1,45 +1,52 @@
-// credit - https://www.youtube.com/watch?v=WpIDez53SK4
+import React, { useState, createContext } from "react";
+import { login, signup } from "../api/tmdb-api";
 
-import React, { useContext, useEffect, useState } from "react";
-import {auth} from "../firebase/firebase.js"
-import { onAuthStateChanged } from "firebase/auth";
+export const AuthContext2 = createContext(null);
 
-const AuthContext = React.createContext();
+const AuthContext2Provider = (props) => {
+  const existingToken = localStorage.getItem("token");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authToken, setAuthToken] = useState(existingToken);
+  const [userName, setUserName] = useState("");
 
-export function useAuth() {
-  return useContext(AuthContext);
-}
-
-export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [userLoggedIn, setUserLoggedIn] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, initialiseUser);
-    return unsubscribe;
-  }, []);
-
-  async function initialiseUser(user) {
-    if (user) {
-      setCurrentUser({ ...user });
-      setUserLoggedIn(true);
-    } else {
-      setCurrentUser(null);
-      setUserLoggedIn(false);
-    }
-    setLoading(false);
+  //Function to put JWT token in local storage.
+  const setToken = (data) => {
+    localStorage.setItem("token", data);
+    setAuthToken(data);
   }
 
-  const value = {
-    currentUser,
-    userLoggedIn,
-    loading
+  const authenticate = async (username, password) => {
+    const result = await login(username, password);
+    if (result.token) {
+      setToken(result.token)
+      setIsAuthenticated(true);
+      setUserName(username);
+    }
+  };
+
+  const register = async (username, password) => {
+    const result = await signup(username, password);
+    console.log(result.code);
+    return (result.code == 201) ? true : false;
+  };
+
+  const signout = () => {
+    setTimeout(() => setIsAuthenticated(false), 100);
   }
 
   return (
-    <AuthContext.Provider value={value}>
-      {!loading && children}
-    </AuthContext.Provider>
-  )
-}
+    <AuthContext2.Provider
+      value={{
+        isAuthenticated,
+        authenticate,
+        register,
+        signout,
+        userName
+      }}
+    >
+      {props.children}
+    </AuthContext2.Provider>
+  );
+};
+
+export default AuthContext2Provider;

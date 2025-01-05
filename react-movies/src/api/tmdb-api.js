@@ -33,22 +33,34 @@ export const getMoviesPage = (args) => {
   });
 };
 
-export const getUpcomingMovies = (args) => {
-  const [, pagePart] = args.queryKey;
-  const { page } = pagePart;
-  return fetch(
-    `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}`
-  ).then((response) => {
-    if (!response.ok) {
-      return response.json().then((error) => {
-        throw new Error(error.status_message || "Something went wrong");
-      });
+// export const getUpcomingMovies = (args) => {
+//   const [, pagePart] = args.queryKey;
+//   const { page } = pagePart;
+//   return fetch(
+//     // `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}`
+//     `http://localhost:8080/movies`
+//   ).then((response) => {
+//     if (!response.ok) {
+//       return response.json().then((error) => {
+//         throw new Error(error.status_message || "Something went wrong");
+//       });
+//     }
+//     return response.json();
+//   })
+//   .catch((error) => {
+//       throw error
+//   });
+// };
+
+export const getUpcomingMovies = async () => {
+  const response = await fetch(
+    'http://localhost:8080/api/movies', {
+    headers: {
+      'Authorization': window.localStorage.getItem('token')
     }
-    return response.json();
-  })
-  .catch((error) => {
-      throw error
-  });
+  }
+  )
+  return response.json();
 };
 
 export const getTrendingMovies = (args) => {
@@ -241,4 +253,24 @@ export const getMovieReviews = ({ queryKey }) => {
  });
 };
 
+export const signup = async (username, password) => {
+  const response = await fetch('http://localhost:8080/api/users?action=register', {
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      method: 'post',
+      body: JSON.stringify({ username: username, password: password })
+  });
+  return response.json();
+};
   
+export const login = async (username, password) => {
+  const response = await fetch('http://localhost:8080/api/users', {
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      method: 'post',
+      body: JSON.stringify({ username: username, password: password })
+  });
+  return response.json();
+};
