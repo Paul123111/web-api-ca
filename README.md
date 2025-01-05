@@ -16,7 +16,7 @@ A bullet-point list of the ADDITIONAL features you have implemented in the API *
 
 ## Setup requirements.
 
-Shouldn't be the same as labs.
+Should be the same as labs.
 
 ## API Configuration
 
@@ -49,21 +49,31 @@ Give an overview of your web API design, perhaps similar to the following:
 - /api/movies/tmdb/person/:id/credits | GET | Gets a list of movies this person has participated in (as cast or crew)
 - /api/movies/tmdb/:id/images | GET | Gets a list of images from a movie
 
+- /api/users | GET | Gets a list of users
+- /api/users | POST | Registers or authenticates a user
+- /api/uses/:id | PUT | Updates a user
 
+- /api/favourites | GET | Gets a list of every users' favourite lists
+- /api/favourites/user/:id | GET | Gets a user's favourite list
+- /api/favourites/user/:id | POST | Creates an empty favourite list for new user
+- /api/favourites/user/:id | PUT | Adds a movie to user's favourite list
+ 
 If you have your API design on an online platform or graphic, please link to it (e.g. [Swaggerhub](https://app.swaggerhub.com/)).
 
 ## Security and Authentication
 
 Give details of authentication/security implemented on the API (e.g. passport/sessions). Indicate which routes are protected.
 
-I added protected routes to watchlist and favourites - user has to be logged in to view them. When someone not logged in tries to access these routes, they are brought to the login view
+I added protected routes to watchlist and favourites - user has to be logged in to view them. When someone not logged in tries to access these routes, they are brought to the login view. Anyone can access the other pages, although it would be trivial to restrict more pages.
+
+The way my authentication works is the same as the lab, where users can login and register I used a token system in localStorage for when the API is used.
 
 ## Integrating with React App
 
 Describe how you integrated your React app with the API. List the views that use your Web API instead of the TMDB API. Describe any other updates to the React app from Assignment One.
 
-Pretty much all the views use my web API
+I fully integrated my React app with the API. All the views that used the TMDB API now use the my API, which takes data from the TMDB API. I also added the login and signup pages, as well as the logout button. I also reworked the favourites to use the API to separate favourites between users. 
 
 ## Independent learning (if relevant)
 
-Briefly explain any non-standard features developed for the app.   
+I used MongoDB to manage the favourites database and used Stack Overflow to troubleshoot (didn't take any code, just used for reference)
