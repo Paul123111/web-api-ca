@@ -27,6 +27,8 @@ const chip = { margin: 0.5 };
 const MovieDetails = ({ movie, credits }) => {  // Don't miss this!
   const [drawerOpen, setDrawerOpen] = useState(false);
 
+  console.log(movie);
+
   return (
     <>
       <Typography variant="h5" component="h3">
@@ -41,6 +43,7 @@ const MovieDetails = ({ movie, credits }) => {  // Don't miss this!
         component="ul" 
         sx={{...root}}
       >
+
         <li>
           <Chip label="Genres" sx={{...chip}} color="primary" />
         </li>
@@ -50,6 +53,8 @@ const MovieDetails = ({ movie, credits }) => {  // Don't miss this!
           </li>
         ))}
       </Paper>
+
+      {/*
       <Paper component="ul" sx={{...root}}>
         <Chip icon={<AccessTimeIcon />} label={`${movie.runtime} min.`} />
         <Chip
@@ -80,29 +85,6 @@ const MovieDetails = ({ movie, credits }) => {  // Don't miss this!
         ))}
       </Paper>
 
-      {/* <Paper 
-        component="ul" 
-        sx={{...root}}
-      >
-        <li>
-          <Chip label="Credits" sx={{...chip}} color="primary" />
-        </li>
-        {credits.cast.map((g) => (
-          <li key={g.name}>
-            <Link to={`/person/${g.id}`}>
-              <Chip label={g.name} sx={{...chip}} />
-            </Link>
-          </li>
-        ))}
-        {credits.crew.map((g) => (
-          <li key={g.name}>
-            <Link to={`/person/${g.id}`}>
-              <Chip label={g.name} sx={{...chip}} />
-            </Link>
-          </li>
-        ))}
-      </Paper> */}
-
       <Paper>
         <Typography variant="h5" component="h3">
           Cast
@@ -121,7 +103,7 @@ const MovieDetails = ({ movie, credits }) => {  // Don't miss this!
         <Button variant="outlined" size="medium" color="primary">
           View Recommendations ...
         </Button>
-      </Link>
+      </Link> */}
       <Fab
         color="secondary"
         variant="extended"

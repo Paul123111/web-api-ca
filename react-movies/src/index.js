@@ -19,7 +19,6 @@ import ThemeContextProvider from "./contexts/themeContext";
 import WatchlistMoviesPage from "./pages/watchlistMoviesPage";
 import LoginPage from "./pages/loginPage";
 import SignUpPage from "./pages/signUpPage";
-import { auth } from "./firebase/firebase";
 import AuthContextProvider from "./contexts/authContext";
 
 const queryClient = new QueryClient({
@@ -35,13 +34,13 @@ const queryClient = new QueryClient({
 
 const App = () => {
   
-  auth.onAuthStateChanged(function(user) {
-    if (user) {
-      // User is signed in.
-    } else {
-      <Navigate to="/login"></Navigate>
-    }
-  });
+  // auth.onAuthStateChanged(function(user) {
+  //   if (user) {
+  //     // User is signed in.
+  //   } else {
+  //     <Navigate to="/login"></Navigate>
+  //   }
+  // });
 
   return (
     <QueryClientProvider client={queryClient}>

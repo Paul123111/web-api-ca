@@ -3,7 +3,8 @@ import asyncHandler from 'express-async-handler';
 import express from 'express';
 import {
   getGenres,
-  getUpcomingMovies
+  getUpcomingMovies,
+  getTrendingMovies
 } from '../tmdb-api';
 
 
@@ -40,6 +41,11 @@ router.get('/:id', asyncHandler(async (req, res) => {
     } else {
         res.status(404).json({message: 'The movie you requested could not be found.', status_code: 404});
     }
+}));
+
+router.get('/tmdb/trending', asyncHandler(async (req, res) => {
+  const upcomingMovies = await getTrendingMovies();
+  res.status(200).json(upcomingMovies);
 }));
 
 router.get('/tmdb/upcoming', asyncHandler(async (req, res) => {

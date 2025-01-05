@@ -11,6 +11,7 @@ const MovieSchema = new Schema({
   release_date: { type: String },
   original_title: { type: String },
   genre_ids: [{ type: Number }],
+  genres: [{type: String}],
   original_language: { type: String },
   title: { type: String },
   backdrop_path: { type: String },
