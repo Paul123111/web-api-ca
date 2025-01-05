@@ -54,7 +54,7 @@ const MovieDetails = ({ movie, credits }) => {  // Don't miss this!
         ))}
       </Paper>
 
-      {/*
+      
       <Paper component="ul" sx={{...root}}>
         <Chip icon={<AccessTimeIcon />} label={`${movie.runtime} min.`} />
         <Chip
@@ -103,7 +103,7 @@ const MovieDetails = ({ movie, credits }) => {  // Don't miss this!
         <Button variant="outlined" size="medium" color="primary">
           View Recommendations ...
         </Button>
-      </Link> */}
+      </Link>
       <Fab
         color="secondary"
         variant="extended"
