@@ -1,0 +1,78 @@
+.darkCard {
+  color: aliceblue;
+  background-color: #222222;
+}
+
+.lightCard {
+  color: black;
+  background-color: white;
+  border: grey solid 2px;
+}
+
+.horizontalScroll {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  display: flex;
+  flex-flow: row;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.verticalScroll {
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  max-height: 200px;
+  box-sizing: border-box;
+  border: grey solid 2px;
+  margin: 10px;
+  padding: 5px;
+}
+
+.personCard {
+  width: 300px;
+  height: 100%;
+}
+
+.movieCard {
+
+}
+
+.verticalStack {
+  /* overflow-x: hidden;
+  overflow-y: hidden;
+  display: flex;
+  flex-flow: row;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  width: 100%; */
+}
+
+
+.responsiveImage {
+  width: 100%;
+  aspect-ratio: 9/16;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.footer {
+  background-color: #222222;
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+.MuiPaginationItem-root {
+  z-index: 3;
+  color: #fff !important;
+  background-color: blue !important;
+}
+
+.Mui-selected {
+  z-index: 3;
+  color: #fff !important;
+  background-color: red !important;
+}
