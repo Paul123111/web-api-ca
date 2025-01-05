@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export const getMovies = () => {
   return fetch(
     `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=1`
@@ -306,7 +308,7 @@ export const login = async (username, password) => {
 };
 
 export const addToFavorites = async (username, movie) => {
-  const movieArray = await getFavorites2(username);
+  let movieArray = await getFavorites2(username);
   console.log(movieArray.movies);
   const response = await fetch(`http://localhost:8080/api/favourites/user/${username}`, {
       headers: {
